@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--修改dao包路径-->
+<mapper namespace="com.lenovo.feizai.dao.ParkingInfoDao">
+
+    <!--    在mybatis-config.xml文件中配置别名，在这里使用别名的时候这里大小写无所谓-->
+    <insert id="addParking" parameterType="parkinginfo">
+        insert into parkinginfo(username, merchantname, merchantaddress, merchantimage, businesslicense, phone, linkman,
+                                QQ)
+        values (#{username}, #{merchantname}, #{merchantaddress}, #{merchantimage}, #{businesslicense}, #{phone},
+                #{linkman}, #{QQ})
+    </insert>
+
+    <update id="updateParking" parameterType="parkinginfo">
+        update parkingInfo
+        set merchantname    = #{merchantname},
+            merchantaddress = #{merchantaddress},
+            merchantimage   = #{merchantimage},
+            businesslicense = #{businesslicense},
+            phone           = #{phone},
+            linkman         = #{linkman},
+            QQ              = #{QQ}
+        where username = #{username}
+    </update>
+
+    <select id="selectAllMerchant" resultType="parkinginfo">
+        select *
+        from parkinginfo
+    </select>
+
+    <select id="selectMerchantByMerchantName" resultType="parkinginfo">
+        select *
+        from parkinginfo
+        where merchantname = #{merchantname}
+    </select>
+
+    <select id="selectMerchantByUsername" resultType="MerchantLoaction">
+        select *
+        from parkinginfo,
+             location,
+             merchantstate
+        where username = #{username}
+          and location.merchantname = parkingInfo.merchantname
+          and merchantstate.merchantname = location.merchantname
+        order by merchantstate.operatingstate DESC, merchantstate.auditstate ASC
+    </select>
+
+    <select id="selectMerchantBasicInfo" resultType="MerchantLoaction">
+        select *
+        from parkinginfo,
+             location,
+             merchantstate
+        where location.merchantname = parkinginfo.merchantname
+          and merchantstate.merchantname = location.merchantname
+    </select>
+
+    <update id="updateIamges" parameterType="String">
+        update parkinginfo
+        set merchantimage   = #{parking_image},
+            businesslicense = #{certificate_image}
+        where merchantname = #{merchantname}
+    </update>
+
+    <select id="selectMerchantByKey" resultType="MerchantLoaction">
+        select * from parkinginfo,merchantstate
+        <where>
+            parkinginfo.merchantname = merchantstate.merchantname
+            <if test="keyword != null and keyword != ''">
+                and (parkinginfo.merchantname like concat('%', #{keyword}, '%') or parkinginfo.username like concat('%',
+                #{keyword}, '%'))
+            </if>
+        </where>
+    </select>
+
+    <select id="selectMerchant" resultType="MerchantLoaction">
+        select * from parkinginfo,merchantstate
+        <where>
+            auditstate = '已通过' and parkingInfo.merchantname = merchantstate.merchantname
+            <if test="keyword != null and keyword != ''">
+                and parkinginfo.merchantname like concat('%', #{keyword}, '%')
+            </if>
+        </where>
+    </select>
+
+    <update id="updateByMerchantChange" parameterType="merchantchange">
+        update parkinginfo
+        set merchantname    = #{newmerchantname},
+            merchantaddress = #{merchantaddress},
+            businesslicense = #{businesslicense}
+        where merchantname = #{oldmerchantname}
+    </update>
+
+    <update id="updateUserName">
+        update parkinginfo
+        set username = #{newname}
+        where username = #{oldname}
+    </update>
+
+    <update id="updateParkingInfoLink">
+        update parkinginfo
+        set phone   = #{phone},
+            linkman = #{linkname},
+            QQ      =#{QQ}
+        where merchantname = #{merchant}
+    </update>
+</mapper>

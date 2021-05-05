@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lenovo.feizai.dao.SubscribeDao">
+    <insert id="addSubscribeOrder" parameterType="order">
+        insert into `order`(orderNumber, merchantName, customerName, space, duration, carLicense, price, startDate,
+                            endDate, qrCode, state, orderType)
+        values (#{orderNumber}, #{merchantName}, #{customerName}, #{space}, #{duration}, #{carLicense}, #{price},
+                #{startDate}, #{endDate}, #{qrCode}, #{state}, #{orderType})
+    </insert>
+
+    <update id="updateSubsrcibeOrder" parameterType="order">
+        update `order`
+        set duration = #{duration},
+            price    = #{price},
+            endDate  = #{endDate},
+            qrCode=#{qrCode}
+        where orderNumber = #{orderNumber}
+    </update>
+
+    <select id="customerFindOrder" resultType="order">
+        select *
+        from `order`
+        where customerName = #{customerName}
+          and orderType = #{orderType}
+          and startDate &gt;= #{statrDate}
+          and endDate &lt; #{endDate}
+        ORDER BY startDate DESC
+        limit #{index},10
+    </select>
+
+    <select id="merchantFindOrder" resultType="order">
+        select *
+        from `order`
+        where merchantName = #{merchantName}
+          and orderType = #{orderType}
+          and startDate &gt;= #{statrDate}
+          and endDate &lt; #{endDate}
+        ORDER BY startDate DESC
+        limit #{index},10
+    </select>
+
+    <select id="selectIngOrderByUser" resultType="order">
+        select *
+        from `order`
+        where customerName = #{username}
+          and endDate &gt; now()
+          and state = '进行中'
+    </select>
+
+    <select id="findSubscribeOrderByLicense" resultType="order">
+        select *
+        from `order`
+        where carLicense = #{license}
+          and merchantName = #{merchant}
+          and TO_DAYS(startDate) = TO_DAYS(NOW())
+    </select>
+
+    <select id="findOrderByNumber" resultType="order">
+        select *
+        from `order`
+        where orderNumber = #{ordernumber}
+    </select>
+
+    <update id="updateUserName">
+        update `order`
+        set customerName = #{newname}
+        where customerName = #{oldname}
+    </update>
+
+    <update id="updateOrderState">
+        update `order`
+        set state = #{state}
+        where orderNumber = #{ordernumber}
+    </update>
+
+    <update id="cancelOrder" parameterType="order">
+        update `order`
+        set state = '已取消'
+        where orderNumber = #{orderNumber}
+    </update>
+</mapper>

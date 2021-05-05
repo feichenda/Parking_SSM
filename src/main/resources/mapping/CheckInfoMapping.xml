@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lenovo.feizai.dao.CheckInfoDao">
+    <insert id="addCheckInfo" parameterType="checkinfo">
+        insert into checkinfo(merchant, serialnumber, carlicense, intime, outtime, ordernumber, price, state)
+        values (#{merchant}, #{serialnumber}, #{carlicense}, #{intime}, #{outtime}, #{ordernumber}, #{price}, #{state})
+    </insert>
+
+    <select id="selectCheckInfoByCarAndMerchant" resultType="checkinfo">
+        select *
+        from checkinfo
+        where state != '已出场'
+          and state != '已超时'
+          and carlicense = #{car}
+          and merchant = #{merchant}
+    </select>
+
+    <select id="isPay" resultType="checkinfo">
+        select *
+        from checkinfo
+        where state = '未缴费'
+          and carlicense = #{car}
+          and merchant = #{merchant}
+    </select>
+
+    <update id="updatePayByMoney" parameterType="checkinfo">
+        update checkinfo
+        set outtime     =#{outtime},
+            ordernumber = #{ordernumber},
+            price       =#{price},
+            state       = #{state}
+        where merchant = #{merchant}
+          and carlicense = #{carlicense}
+          and state = '未缴费'
+    </update>
+
+    <select id="clearing" resultType="checkinfo">
+        select *
+        from checkinfo
+        where merchant = #{merchant}
+          and carlicense = #{car}
+          and state = '未缴费'
+    </select>
+
+    <update id="goout" parameterType="checkinfo">
+        update checkinfo
+        set state = #{state}
+        where id = #{id}
+    </update>
+
+    <select id="selectUsingSpace" resultType="checkinfo">
+        select *
+        from checkinfo
+        where (state = '未缴费' or state = '已缴费')
+          and merchant = #{merchant}
+          and carlicense = #{car}
+    </select>
+
+    <select id="isParking" resultType="checkinfo">
+        select *
+        from checkinfo
+        where carlicense = #{car}
+          and state = '未缴费'
+    </select>
+
+</mapper>

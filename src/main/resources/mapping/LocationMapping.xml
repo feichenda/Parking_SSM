@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--修改dao包路径-->
+<mapper namespace="com.lenovo.feizai.dao.LocationDao">
+
+    <!--    在mybatis-config.xml文件中配置别名，在这里使用别名的时候这里大小写无所谓-->
+    <insert id="addLocation" parameterType="Location">
+        insert into location(merchantname, longitude, latitude, city)
+        values (#{merchantname}, #{longitude}, #{latitude}, #{city})
+    </insert>
+
+    <select id="selectParking" parameterType="Location" resultType="Location">/*计算结果单位为米*/
+    SELECT t1.*
+    FROM (SELECT t2.*
+          FROM (SELECT location.*,
+                       ROUND(6378.138 * 2 * ASIN(
+                               SQRT(POW(SIN((latitude * PI() / 180 - #{latitude} * PI() / 180) / 2), 2) +
+                                    COS(latitude * PI() / 180) * COS(#{latitude} * PI() / 180) *
+                                    POW(SIN((longitude * PI() / 180 - #{longitude} * PI() / 180) / 2), 2))) * 1000) /
+                       1000 AS distance
+                FROM location,
+                     merchantstate
+                WHERE operatingstate = '营业中'
+                  and location.merchantname = merchantstate.merchantname
+                  and merchantstate.auditstate = '已通过') t2
+          WHERE distance &lt; 3
+          ORDER BY distance ASC) t1,
+         parkingnumber
+    WHERE parkingnumber.merchantname = t1.merchantname
+      AND parkingnumber.allnumber -
+          (parkingnumber.usednumber + parkingnumber.subscribenumber + parkingnumber.unusednumber) &gt; 0
+    </select>
+
+    <select id="selectParkingByName" resultType="location">
+        select *
+        from location
+        where merchantname = #{name}
+    </select>
+
+    <select id="selectLocation" resultType="location">
+        select location.* from location,merchantstate
+        <where>
+            location.merchantname = merchantstate.merchantname and merchantstate.auditstate = '已通过'
+            <if test="name != null and name != ''">
+                and location.merchantname like concat('%', #{keyword}, '%')
+            </if>
+        </where>
+    </select>
+
+    <update id="updateByMerchantChange" parameterType="merchantchange">
+        update location
+        set merchantname = #{newmerchantname},
+            longitude    = #{longitude},
+            latitude     =#{latitude},
+            city         = #{city}
+        where merchantname = #{oldmerchantname}
+    </update>
+
+
+    <!--SELECT t2.* FROM (SELECT *, ROUND( 6378.138 * 2 * ASIN( SQRT( POW( SIN( ( latitude * PI() / 180 - #{latitude} * PI() / 180 ) / 2 ), 2 ) + COS(latitude * PI() / 180) * COS(#{latitude} * PI() / 180) * POW( SIN( ( longitude * PI() / 180 - #{longitude} * PI() / 180 ) / 2 ), 2 ) ) ) * 1000 )/1000 AS distance FROM location) t2 WHERE distance &lt; 5  ORDER BY distance ASC-->
+
+</mapper>

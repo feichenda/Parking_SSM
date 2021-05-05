@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <typeAliases>
+        <!--        这是单个的别名-->
+        <!--        <typeAlias type="com.xinke.SsmExample.Entity.User" alias="user"></typeAlias>-->
+
+        <!--        多个时可以直配置用包-->
+        <package name="com.lenovo.feizai.entity"/>
+    </typeAliases>
+
+    <plugins>
+        <!-- com.github.pagehelper为PageHelper类所在包名 -->
+        <plugin interceptor="com.github.pagehelper.PageInterceptor">
+            <!-- 使用下面的方式配置参数，后面会有所有的参数介绍 -->
+            <property name="helperDialect" value="mysql"/>
+        </plugin>
+    </plugins>
+
+    <!--    <mappers>-->
+    <!--        <mapper resource="com/xinke/SsmExample/Mapping/UserMapping.xml"/>-->
+    <!--    </mappers>-->
+
+
+</configuration>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lenovo.feizai.dao.PayDao">
+    <insert id="addPayOrder" parameterType="order">
+        insert into `order`(orderNumber, merchantName, customerName, space, carLicense, price, duration, startDate,
+                            endDate, qrCode, state, orderType)
+        VALUES (#{orderNumber}, #{merchantName}, #{customerName}, #{space}, #{carLicense}, #{price}, #{duration},
+                #{startDate}, #{endDate}, #{qrCode}, #{state}, #{orderType})
+    </insert>
+</mapper>

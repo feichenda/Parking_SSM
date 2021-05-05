@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--修改dao包路径-->
+<mapper namespace="com.lenovo.feizai.dao.ParkingSpaceDao">
+
+    <!--    在mybatis-config.xml文件中配置别名，在这里使用别名的时候这里大小写无所谓-->
+    <insert id="addSpace" parameterType="ParkingSpace">
+        insert into parkingspace(merchantname, parkingstate, serialnumber)
+        values (#{merchantname}, #{parkingstate}, #{serialnumber})
+    </insert>
+
+    <select id="searchSpace" resultType="parkingspace">
+        select *
+        from parkingspace
+        where merchantname = #{merchantname}
+    </select>
+
+    <select id="searchSpaceByNameAndSerialnumber" resultType="parkingspace">
+        select *
+        from parkingspace
+        where merchantname = #{merchantname}
+          and serialnumber = #{serialnumber}
+    </select>
+
+    <update id="updateParkingSpace" parameterType="parkingspace">
+        update parkingspace
+        set parkingstate = #{parkingstate},
+            remark       = #{remark}
+        where merchantname = #{merchantname}
+          and serialnumber = #{serialnumber}
+    </update>
+
+    <update id="updateParkingSpaceByNameAndSerialnumber" parameterType="string">
+        update parkingspace
+        set parkingstate = #{state}
+        where merchantname = #{merchant}
+          and serialnumber = #{serialnumber}
+    </update>
+
+    <update id="updateByMerchantChange" parameterType="merchantchange">
+        update parkingspace
+        set merchantname = #{newmerchantname}
+        where merchantname = #{oldmerchantname}
+    </update>
+</mapper>

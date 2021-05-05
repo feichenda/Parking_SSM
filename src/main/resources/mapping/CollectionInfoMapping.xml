@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lenovo.feizai.dao.CollectionDao">
+
+    <select id="selectCollectionByCustomer" resultType="collectioninfo">
+        select *
+        from collectioninfo
+        where username = #{username}
+    </select>
+
+    <select id="isCollection" resultType="collectioninfo">
+        select *
+        from collectioninfo
+        where username = #{username}
+          and remark = #{merchant}
+    </select>
+
+    <insert id="addCollection" parameterType="collectioninfo">
+        insert into collectioninfo(username, address, remark, longitude, latitude)
+        values (#{username}, #{address}, #{remark}, #{longitude}, #{latitude})
+    </insert>
+
+    <delete id="deleteCollection" parameterType="collectioninfo">
+        delete
+        from collectioninfo
+        where username = #{username}
+          and remark = #{remark}
+    </delete>
+
+    <update id="updateCollection" parameterType="collection">
+        update collectioninfo
+        set address   = #{address},
+            remark    = #{remark},
+            longitude = #{longitude},
+            latitude  = #{latitude}
+        where id = #{id}
+    </update>
+
+    <update id="updateUserName">
+        update collectioninfo
+        set username = #{newname}
+        where username = #{oldname}
+    </update>
+</mapper>

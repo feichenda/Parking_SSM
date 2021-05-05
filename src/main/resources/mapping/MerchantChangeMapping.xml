@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--修改dao包路径-->
+<mapper namespace="com.lenovo.feizai.dao.MerchantChangeDao">
+    <insert id="addMerchantChange" parameterType="merchantchange">
+        insert into merchantchange(username, oldmerchantname, newmerchantname, merchantaddress, longitude, latitude,
+                                   city, onehour, otherone, businesslicense, auditstate, remark)
+        values (#{username}, #{oldmerchantname}, #{newmerchantname}, #{merchantaddress}, #{longitude}, #{latitude},
+                #{city}, #{onehour}, #{otherone}, #{businesslicense}, #{auditstate}, #{remark})
+    </insert>
+
+    <update id="updateMerchantChange" parameterType="merchantchange">
+        update merchantchange
+        set newmerchantname = #{newmerchantname},
+            merchantaddress = #{merchantaddress},
+            longitude       = #{longitude},
+            latitude        = #{latitude},
+            city            = #{city},
+            onehour         = #{onehour},
+            otherone        = #{otherone},
+            businesslicense = #{businesslicense},
+            auditstate      = #{auditstate},
+            remark          =#{remark}
+        where oldmerchantname = #{oldmerchantname}
+          and (auditstate = '未通过'
+            or auditstate = '未审核')
+    </update>
+
+    <select id="selectMerchatChangeByOldName" resultType="merchantchange">
+        select *
+        from merchantchange
+        where oldmerchantname = #{oldmerchantname}
+          and (auditstate = '未通过' or auditstate = '未审核')
+    </select>
+
+    <update id="updateMerchantChangeState">
+        update merchantchange
+        set auditstate = #{auditstate},
+            remark     = #{remark}
+        where oldmerchantname = #{oldname}
+          and (auditstate = '未审核' or auditstate = '未通过')
+    </update>
+
+    <update id="updateUserName">
+        update merchantchange
+        set username = #{newname}
+        where username = #{oldname}
+    </update>
+</mapper>

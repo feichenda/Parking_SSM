@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lenovo.feizai.dao.MerchantStateDao">
+    <insert id="addMerchantState" parameterType="merchantstate">
+        insert into merchantstate(merchantname, operatingstate, auditstate, remark)
+        VALUES (#{merchantname}, #{operatingstate}, #{auditstate}, #{remark})
+    </insert>
+
+    <select id="selectAllMerchantState" resultType="merchantstate">
+        select *
+        from merchantstate
+    </select>
+
+    <select id="selectCheckInfoByName" resultType="merchantstate">
+        select *
+        from merchantstate
+        where merchantname = #{parkingInfo}
+    </select>
+
+    <update id="updateCheckInfoByName">
+        update merchantstate
+        set auditstate = #{auditstate},
+            remark     = #{remark}
+        where merchantname = #{merchantname}
+    </update>
+
+    <select id="selectMerchantState" resultType="merchantstate">
+        select * from merchantstate
+        <where>
+            auditstate = '已通过'
+            <if test="keyword != null and keyword != ''">
+                and merchantname like concat('%', #{keyword}, '%')
+            </if>
+        </where>
+    </select>
+
+    <select id="selectMerchantStateByName" resultType="merchantstate">
+        select *
+        from merchantstate
+        where merchantname = #{merchant}
+    </select>
+
+    <select id="selectUncheckMerchant" resultType="MerchantLoaction">
+        select * from parkinginfo,merchantstate
+        <where>
+            parkinginfo.merchantname = merchantstate.merchantname and (auditstate = '未通过' or auditstate = '未审核')
+            <if test="keyword != null and keyword != ''">
+                and (parkinginfo.merchantname like concat('%', #{keyword}, '%') or parkinginfo.username like concat('%',
+                #{keyword}, '%'))
+            </if>
+        </where>
+    </select>
+
+    <select id="selectUncheckChangeMerchant" resultType="merchantchange">
+        select * from merchantchange
+        <where>
+            auditstate = '未通过' or auditstate = '未审核'
+            <if test="keyword != null and keyword != ''">
+                and (merchantchange.oldmerchantname like concat('%', #{keyword}, '%') or merchantchange.username like
+                concat('%', #{keyword}, '%'))
+            </if>
+        </where>
+    </select>
+
+    <select id="findMerchantState" resultType="merchantstate">
+        select *
+        from merchantstate
+        where merchantname = #{merchant}
+    </select>
+
+    <update id="updateParkingState">
+        update merchantstate
+        set operatingstate = #{state}
+        where merchantname = #{merchant}
+    </update>
+
+    <update id="updateByMerchantChange" parameterType="merchantchange">
+        update merchantstate
+        set merchantname = #{newmerchantname}
+        where merchantname = #{oldmerchantname}
+    </update>
+</mapper>

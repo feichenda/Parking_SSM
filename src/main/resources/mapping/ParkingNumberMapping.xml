@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--修改dao包路径-->
+<mapper namespace="com.lenovo.feizai.dao.ParkingNumberDao">
+
+    <!--    在mybatis-config.xml文件中配置别名，在这里使用别名的时候这里大小写无所谓-->
+    <insert id="addParkingNumber" parameterType="ParkingNumber">
+        insert into parkingnumber(merchantname, allnumber, usednumber, subscribenumber, unusednumber)
+        values (#{merchantname}, #{allnumber}, #{usednumber}, #{subscribenumber}, #{unusednumber})
+    </insert>
+
+    <select id="selectNumber" resultType="parkingnumber">
+        select parkingnumber.* from parkingnumber,merchantstate
+        <where>
+            parkingnumber.merchantname = merchantstate.merchantname and merchantstate.auditstate = '已通过'
+            <if test="name != null and name != ''">
+                and parkingnumber.merchantname like concat('%', #{keyword}, '%')
+            </if>
+        </where>
+    </select>
+
+    <select id="selectNumberByname" resultType="parkingnumber">
+        select *
+        from parkingnumber
+        where merchantname = #{name}
+    </select>
+
+    <update id="updateNumber" parameterType="parkingnumber">
+        update parkingnumber
+        <set>
+            <if test="usednumber!=0">usednumber = usednumber + #{usednumber},</if>
+            <if test="subscribenumber!=0">subscribenumber = subscribenumber + #{subscribenumber},</if>
+            <if test="unusednumber!=0">unusednumber = unusednumber + #{unusednumber},</if>
+        </set>
+        where merchantname = #{merchantname}
+    </update>
+
+    <update id="updateByMerchantChange" parameterType="merchantchange">
+        update parkingnumber
+        set merchantname = #{newmerchantname}
+        where merchantname = #{oldmerchantname}
+    </update>
+
+</mapper>

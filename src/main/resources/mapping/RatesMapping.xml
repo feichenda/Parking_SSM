@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--修改dao包路径-->
+<mapper namespace="com.lenovo.feizai.dao.RatesDao">
+
+    <!--    在mybatis-config.xml文件中配置别名，在这里使用别名的时候这里大小写无所谓-->
+    <insert id="addRates" parameterType="rates">
+        insert into rates(merchantname, onehour, otherone)
+        values (#{merchantname}, #{onehour}, #{otherone})
+    </insert>
+
+    <select id="selectRatesByName" resultType="rates">
+        select rates.*
+        from rates,merchantstate
+        <where>
+            merchantstate.auditstate = '已通过' and merchantstate.merchantname = rates.merchantname
+            <if test="merchantname != null and merchantname != ''">
+                and rates.merchantname like concat('%', #{merchantname}, '%')
+            </if>
+        </where>
+    </select>
+
+    <select id="selectRatesByMerchant" resultType="rates">
+        select *
+        from rates
+        where merchantname = #{merchantname}
+    </select>
+
+    <update id="updateByMerchantChange" parameterType="merchantchange">
+        update rates
+        set merchantname = #{newmerchantname},
+            onehour      = #{onehour},
+            otherone     =#{otherone}
+        where merchantname = #{oldmerchantname}
+    </update>
+
+    <select id="findRatesByMerchant" resultType="rates">
+        select *
+        from rates
+        where merchantname = #{merchant}
+    </select>
+</mapper>

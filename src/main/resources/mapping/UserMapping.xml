@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--修改dao包路径-->
+<mapper namespace="com.lenovo.feizai.dao.UserDao">
+
+    <!--    在mybatis-config.xml文件中配置别名，在这里使用别名的时候这里大小写无所谓-->
+    <select id="selectUserByUserName" resultType="user">
+        select * from user
+        <where>
+            <if test="username != null and username != ''">
+                username = #{username}
+            </if>
+        </where>
+    </select>
+
+    <update id="changePasswordByUserName">
+        update user
+        set password = #{newpassword}
+        where username = #{username}
+    </update>
+
+    <insert id="addUser" parameterType="user">
+        insert into user (username, password, role)
+        values (#{username}, #{password}, #{role})
+    </insert>
+
+    <update id="updateUserName">
+        update user
+        set username = #{newname}
+        where username = #{oldname}
+    </update>
+
+</mapper>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lenovo.feizai.dao.CarInfoDao">
+
+    <insert id="addCarInfo" parameterType="carinfo">
+        insert into carinfo(username, car_license)
+        VALUES (#{username}, #{car_license})
+    </insert>
+
+    <select id="selectCarByUsernam" resultType="carinfo">
+        select *
+        from carinfo
+        where username = #{username}
+    </select>
+
+    <select id="selectCarLicenseByUsernam" resultType="String">
+        select car_license
+        from carinfo
+        where username = #{username}
+    </select>
+
+    <select id="selectNoFreeCarByUsername" resultType="String">
+        select `order`.carLicense
+        from `order`
+        where customerName = #{username}
+          and `order`.endDate &gt; now()
+          and state = '进行中'
+    </select>
+
+    <update id="updateCarInfo" parameterType="carinfo">
+        update carinfo
+        set car_license = #{car_license}
+        where id = #{id}
+    </update>
+
+    <delete id="deleteCar" parameterType="carinfo">
+        delete
+        from carinfo
+        where username = #{username}
+          and car_license = #{car_license}
+    </delete>
+
+    <update id="updateUserName">
+        update carinfo
+        set username = #{newname}
+        where username = #{oldname}
+    </update>
+</mapper>

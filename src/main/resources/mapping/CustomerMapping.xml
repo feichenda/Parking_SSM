@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--修改dao包路径-->
+<mapper namespace="com.lenovo.feizai.dao.CustomerDao">
+
+    <!--    在mybatis-config.xml文件中配置别名，在这里使用别名的时候这里大小写无所谓-->
+    <insert id="addCustomer" parameterType="customer">
+        insert into customer (username, phone, QQ, company, company_longitude, company_latitude, home, home_longitude,
+                              home_latitude, integral, avatar)
+        values (#{username}, #{phone}, #{QQ}, #{company}, #{company_longitude}, #{company_latitude}, #{home},
+                #{home_longitude}, #{home_latitude}, #{integral}, #{avatar})
+    </insert>
+
+    <select id="selectCustomer" resultType="customer">
+        select *
+        from customer
+        where username = #{username}
+    </select>
+
+    <select id="selectAllCustomer" resultType="customer">
+        select *
+        from customer
+    </select>
+
+    <select id="selectCustomerByKey" resultType="customer">
+        select * from customer
+        <where>
+            <if test="keyword!=null and keyword!=''">
+                and username like concat('%',#{keyword},'%')
+            </if>
+        </where>
+    </select>
+
+    <update id="updateHomeAddressInfo" parameterType="customer">
+        update customer
+        set home           = #{home},
+            home_longitude = #{home_longitude},
+            home_latitude  = #{home_latitude}
+        where username = #{username}
+    </update>
+
+    <update id="updateCompanyAddressInfo" parameterType="customer">
+        update customer
+        set company           = #{company},
+            company_longitude = #{company_longitude},
+            company_latitude  = #{company_latitude}
+        where username = #{username}
+    </update>
+
+    <update id="updateAvatar">
+        update customer
+        set avatar = #{avatar}
+        where username = #{username}
+    </update>
+
+    <update id="updatePhone">
+        update customer
+        set phone = #{phone}
+        where username = #{username}
+    </update>
+
+    <update id="updateUserName">
+        update customer
+        set username = #{newname},
+            avatar   = #{avatar}
+        where username = #{oldname}
+    </update>
+
+    <update id="updateCustomerQQ">
+        update customer
+        set QQ = #{QQ}
+        where username = #{customer}
+    </update>
+
+</mapper>

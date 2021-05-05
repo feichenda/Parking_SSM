@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--修改dao包路径-->
+<mapper namespace="com.lenovo.feizai.dao.MerchantDao">
+    <insert id="addMerchant" parameterType="merchant">
+        insert into merchant(username, phone, QQ, avatar)
+        VALUES (#{username}, #{phone}, #{QQ}, #{avatar})
+    </insert>
+
+    <select id="selectMerchantByName" resultType="merchant">
+        select *
+        from merchant
+        where username = #{username}
+    </select>
+
+    <update id="updateUserName">
+        update merchant
+        set username = #{newname},
+            avatar   = #{avatar}
+        where username = #{oldname}
+    </update>
+
+    <update id="updateAvatar">
+        update merchant
+        set avatar = #{avatar}
+        where username = #{username}
+    </update>
+
+    <update id="updatePhone">
+        update merchant
+        set phone = #{phone}
+        where username = #{username}
+    </update>
+
+    <update id="updateMerchantQQ">
+        update merchant
+        set QQ = #{QQ}
+        where username = #{merchant}
+    </update>
+</mapper>

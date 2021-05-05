@@ -1,0 +1,11 @@
+.my-body {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 998;
+    width: auto;
+    overflow-y: auto;
+    box-sizing: border-box;
+}
