@@ -82,8 +82,8 @@
             <tr>
                 <td>收费标准</td>
                 <td>
-                    <div><span>前一小时:</span><span>${oldlocationdetailedinfo.onehour}元</span></div>
-                    <div><span>超过一小时:</span><span>${oldlocationdetailedinfo.otherone}元/30分钟</span></div>
+                    <div><span>前一小时:</span><span>${oldratedetailedinfo.onehour}元</span></div>
+                    <div><span>超过一小时:</span><span>${oldratedetailedinfo.otherone}元/30分钟</span></div>
                 </td>
                 <td>
                     <div><span>前一小时:</span><span>${ratedetailedinfo.onehour}元</span></div>
