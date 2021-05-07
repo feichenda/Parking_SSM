@@ -20,4 +20,6 @@ public interface ParkingNumberServerDao {
     public int updateNumber(ParkingNumber parkingNumber);
 
     public int updateByMerchantChange(MerchantChange merchantChange);
+
+    public ParkingNumber selectNumberByMerchantnumber(String merchant);
 }

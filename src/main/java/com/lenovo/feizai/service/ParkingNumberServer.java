@@ -43,4 +43,9 @@ public class ParkingNumberServer implements ParkingNumberServerDao {
     public int updateByMerchantChange(MerchantChange merchantChange) {
         return dao.updateByMerchantChange(merchantChange);
     }
+
+    @Override
+    public ParkingNumber selectNumberByMerchantnumber(String merchant) {
+        return dao.selectNumberByMerchantnumber(merchant);
+    }
 }

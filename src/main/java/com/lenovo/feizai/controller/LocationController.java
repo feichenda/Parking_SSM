@@ -1,9 +1,7 @@
 package com.lenovo.feizai.controller;
 
-import com.lenovo.feizai.entity.BaseModel;
-import com.lenovo.feizai.entity.Location;
-import com.lenovo.feizai.service.LocationServiceDao;
-import com.lenovo.feizai.service.MerchantStateServiceDao;
+import com.lenovo.feizai.entity.*;
+import com.lenovo.feizai.service.*;
 import com.lenovo.feizai.util.GsonUtil;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,15 +26,41 @@ public class LocationController {
     @Autowired
     LocationServiceDao locationServiceDao;
 
+    @Autowired
+    ParkingInfoServiceDao parkingInfoServiceDao;
+
+    @Autowired
+    ParkingNumberServerDao parkingNumberServerDao;
+
+    @Autowired
+    RatesServiceDao ratesServiceDao;
+
+    @Autowired
+    MerchantStateServiceDao merchantStateServiceDao;
+
     @ResponseBody
     @RequestMapping(value = "/selectparking", method = RequestMethod.POST)
     public String selectParking(@RequestBody Location location) {
         List<Location> parkings = locationServiceDao.selectParking(location);
-        BaseModel<Location> model = new BaseModel<>();
+        List<MerchantProperty> properties = new ArrayList<>();
+        for (Location parking : parkings) {
+            MerchantProperty property = new MerchantProperty();
+            ParkingInfo parkinginfo = parkingInfoServiceDao.selectMerchantByMerchantName(parking.getMerchantname());
+            ParkingNumber parkingNumber = parkingNumberServerDao.selectNumberByMerchantnumber(parking.getMerchantname());
+            Rates rates = ratesServiceDao.findRatesByMerchant(parking.getMerchantname());
+            MerchantState merchantState = merchantStateServiceDao.findMerchantState(parking.getMerchantname());
+            property.setLocation(parking);
+            property.setParkingInfo(parkinginfo);
+            property.setParkingNumber(parkingNumber);
+            property.setRates(rates);
+            property.setMerchantState(merchantState);
+            properties.add(property);
+        }
+        BaseModel<MerchantProperty> model = new BaseModel<>();
         if (parkings.size()>0) {
             model.setCode(200);
             model.setMessage("查询成功");
-            model.setDatas(parkings);
+            model.setDatas(properties);
             return GsonUtil.GsonString(model);
         }else {
             model.setCode(201);

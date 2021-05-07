@@ -63,8 +63,10 @@
                         <c:forEach var="oldlicense_path" items="${oldlicense_paths}">
 <%--                            <img layer-src="http://39.108.48.82:8080/${oldlicense_path}"--%>
 <%--                                 src="http://39.108.48.82:8080/${oldlicense_path}" alt="营业执照" width="100px" height="75px">--%>
-                            <img layer-src="http://120.78.208.177:8080/${oldlicense_path}"
-                                 src="http://120.78.208.177:8080/${oldlicense_path}" alt="营业执照" width="100px" height="75px">
+<%--                            <img layer-src="http://120.78.208.177:8080/${oldlicense_path}"--%>
+<%--                                 src="http://120.78.208.177:8080/${oldlicense_path}" alt="营业执照" width="100px" height="75px">--%>
+                            <img layer-src="http://127.0.0.1:8080/${oldlicense_path}"
+                                 src="http://127.0.0.1:8080/${oldlicense_path}" alt="营业执照" width="100px" height="75px">
                         </c:forEach>
                     </div>
                 </td>
@@ -73,8 +75,10 @@
                         <c:forEach var="newlicense_path" items="${newlicense_paths}">
 <%--                            <img layer-src="http://39.108.48.82:8080/${newlicense_path}"--%>
 <%--                                 src="http://39.108.48.82:8080/${newlicense_path}" alt="停车场照片" width="100px" height="75px">--%>
-                            <img layer-src="http://120.78.208.177:8080/${newlicense_path}"
-                                 src="http://120.78.208.177:8080/${newlicense_path}" alt="停车场照片" width="100px" height="75px">
+<%--                            <img layer-src="http://120.78.208.177:8080/${newlicense_path}"--%>
+<%--                                 src="http://120.78.208.177:8080/${newlicense_path}" alt="停车场照片" width="100px" height="75px">--%>
+                            <img layer-src="http://127.0.0.1:8080/${newlicense_path}"
+                                 src="http://1207.0.0.1:8080/${newlicense_path}" alt="停车场照片" width="100px" height="75px">
                         </c:forEach>
                     </div>
                 </td>

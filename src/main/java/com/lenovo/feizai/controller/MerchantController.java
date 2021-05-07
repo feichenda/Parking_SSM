@@ -590,22 +590,6 @@ public class MerchantController {
         return GsonUtil.GsonString(model);
     }
 
-//    @ResponseBody
-//    @RequestMapping("/findAdImage")
-//    public String findAdImage() {
-//        List<AdImage> adImages = parkingInfoServiceDao.selectAllAdImage();
-//        BaseModel<AdImage> model = new BaseModel<>();
-//        if (adImages.size() > 0) {
-//            model.setCode(200);
-//            model.setMessage("查询成功");
-//            model.setDatas(adImages);
-//        } else {
-//            model.setCode(201);
-//            model.setMessage("查询失败");
-//        }
-//        return GsonUtil.GsonString(model);
-//    }
-
     @ResponseBody
     @RequestMapping("/changeParkingInfo")
     public String changeParkingInfo(@Param("change") String change, @RequestParam("image") MultipartFile[] image) {

@@ -43,4 +43,10 @@
         where merchantname = #{oldmerchantname}
     </update>
 
+    <select id="selectNumberByMerchantnumber" resultType="parkingnumber">
+        select *
+        from parkingnumber
+        where merchantname = #{merchant}
+    </select>
+
 </mapper>

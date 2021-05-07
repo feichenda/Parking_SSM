@@ -56,12 +56,12 @@
                 <td>
                     <div id="layer-photos-license" class="layer-photos-demo">
                         <c:forEach var="license_path" items="${license_paths}">
-                            <%--<img layer-src="http://localhost:8080/${license_path}"
-                                 src="http://localhost:8080/${license_path}" alt="营业执照">--%>
+                            <img layer-src="http://localhost:8080/${license_path}"
+                                 src="http://localhost:8080/${license_path}" alt="营业执照" width="100px" height="75px">
 <%--                            <img layer-src="http://39.108.48.82:8080/${license_path}"--%>
 <%--                                 src="http://39.108.48.82:8080/${license_path}" alt="营业执照" width="100px" height="75px">--%>
-                            <img layer-src="http://120.78.208.177:8080/${license_path}"
-                                 src="http://120.78.208.177:8080/${license_path}" alt="营业执照" width="100px" height="75px">
+<%--                            <img layer-src="http://120.78.208.177:8080/${license_path}"--%>
+<%--                                 src="http://120.78.208.177:8080/${license_path}" alt="营业执照" width="100px" height="75px">--%>
                         </c:forEach>
                     </div>
                 </td>
@@ -71,12 +71,12 @@
                 <td>
                     <div id="layer-photos-image" class="layer-photos-demo">
                         <c:forEach var="images_path" items="${images_paths}">
-                            <%--<img layer-src="http://localhost:8080/${images_path}"
-                                 src="http://localhost:8080/${images_path}" alt="停车场照片">--%>
+                            <img layer-src="http://localhost:8080/${images_path}"
+                                 src="http://localhost:8080/${images_path}" alt="停车场照片" width="100px" height="75px">
 <%--                            <img layer-src="http://39.108.48.82:8080/${images_path}"--%>
 <%--                                 src="http://39.108.48.82:8080/${images_path}" alt="停车场照片" width="100px" height="75px">--%>
-                            <img layer-src="http://120.78.208.177:8080/${images_path}"
-                                 src="http://120.78.208.177:8080/${images_path}" alt="停车场照片" width="100px" height="75px">
+<%--                            <img layer-src="http://120.78.208.177:8080/${images_path}"--%>
+<%--                                 src="http://120.78.208.177:8080/${images_path}" alt="停车场照片" width="100px" height="75px">--%>
                         </c:forEach>
                     </div>
                 </td>
