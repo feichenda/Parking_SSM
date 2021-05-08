@@ -22,8 +22,7 @@
                        1000 AS distance
                 FROM location,
                      merchantstate
-                WHERE operatingstate = '营业中'
-                  and location.merchantname = merchantstate.merchantname
+                WHERE location.merchantname = merchantstate.merchantname
                   and merchantstate.auditstate = '已通过') t2
           WHERE distance &lt; 3
           ORDER BY distance ASC) t1,
