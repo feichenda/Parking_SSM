@@ -27,7 +27,6 @@
           and startDate &gt;= #{statrDate}
           and endDate &lt; #{endDate}
         ORDER BY startDate DESC
-        limit #{index},10
     </select>
 
     <select id="merchantFindOrder" resultType="order">
@@ -38,7 +37,6 @@
           and startDate &gt;= #{statrDate}
           and endDate &lt; #{endDate}
         ORDER BY startDate DESC
-        limit #{index},10
     </select>
 
     <select id="selectIngOrderByUser" resultType="order">

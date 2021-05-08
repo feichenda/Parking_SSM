@@ -1,5 +1,7 @@
 package com.lenovo.feizai.controller;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.lenovo.feizai.entity.BaseModel;
 import com.lenovo.feizai.entity.ParkingNumber;
 import com.lenovo.feizai.entity.ParkingSpace;
@@ -67,7 +69,7 @@ public class SubscribeController {
             if (subscribeResult > 0 && spaceResult > 0 && numberResult > 0) {
                 model.setCode(200);
                 model.setMessage("更新订单成功");
-                myQuartzManager.addSubsrcibeJob(subscribeOrder.getOrderNumber(),"Subscribe",subscribeOrder.getOrderNumber(),"Subscribe", SubsrcibeJob.class,subscribeOrder);
+                myQuartzManager.addSubsrcibeJob(subscribeOrder.getOrderNumber(), "Subscribe", subscribeOrder.getOrderNumber(), "Subscribe", SubsrcibeJob.class, subscribeOrder);
                 subscribeServiceDao.updateOrderState("进行中", subscribeOrder.getOrderNumber());
             } else {
                 model.setCode(201);
@@ -105,7 +107,7 @@ public class SubscribeController {
             if (subscribeResult > 0 && spaceResult > 0) {
                 model.setCode(200);
                 model.setMessage("插入订单成功");
-                myQuartzManager.modifySubsrcibeJobTime(subscribeOrder.getOrderNumber(),"Subscribe",subscribeOrder.getOrderNumber(),"Subscribe",subscribeOrder);
+                myQuartzManager.modifySubsrcibeJobTime(subscribeOrder.getOrderNumber(), "Subscribe", subscribeOrder.getOrderNumber(), "Subscribe", subscribeOrder);
             } else {
                 model.setCode(201);
                 model.setMessage("插入订单失败");
@@ -121,68 +123,77 @@ public class SubscribeController {
     @ResponseBody
     @RequestMapping("/customerFindOrder")//用户查询订单
     public String customerFindOrder(@Param("String customer") String customer, @Param("year") int year, @Param("month") int month, @Param("type") String type, @Param("index") int index) {
+        PageHelper.startPage(index, 10);
         List<Order> orders = null;
         List<String> list = new ArrayList<>();
+        BaseModel<String> model = new BaseModel<>();
         String statrDate = year + "-" + month + "-1";
         String endDate = year + "-" + (month + 1) + "-1";
         if (month == 12) {
             endDate = (year + 1) + "-" + 1 + "-1";
         }
         try {
-            orders = subscribeServiceDao.customerFindOrder(customer, statrDate, endDate, type, index);
+            orders = subscribeServiceDao.customerFindOrder(customer, statrDate, endDate, type);
             for (Order order : orders) {
                 String json = GsonUtil.GsonString(order);
                 list.add(json);
             }
+            PageInfo<Order> pageInfo = new PageInfo<>(orders);
+//            if (pageInfo.getTotal() == 0) {
+//                model.setCode(201);
+//                model.setMessage("查询失败");
+//                return GsonUtil.GsonString(model);
+//            }
+            if (index <= pageInfo.getNavigateLastPage() && pageInfo.getTotal() > 0) {
+                model.setCode(200);
+                model.setMessage("yes");
+                model.setDatas(list);
+            } else {
+                model.setCode(200);
+                model.setMessage("no");
+            }
         } catch (Exception e) {
             e.printStackTrace();
             orders = null;
-        }
-        BaseModel<String> model = new BaseModel<>();
-        if (orders != null && orders.size() > 0) {
-            model.setCode(200);
-            model.setMessage("查询成功");
-            model.setDatas(list);
-        } else {
             model.setCode(201);
             model.setMessage("查询失败");
         }
-        GsonUtil.GsonString(model);
-        System.out.println(GsonUtil.GsonString(model));
         return GsonUtil.GsonString(model);
     }
 
     @ResponseBody
     @RequestMapping("/merchantFindOrder")//商家查询订单
     public String merchantFindOrder(@Param("String customer") String customer, @Param("year") int year, @Param("month") int month, @Param("type") String type, @Param("index") int index) {
+        PageHelper.startPage(index, 10);
         List<Order> orders = null;
         List<String> list = new ArrayList<>();
+        BaseModel<String> model = new BaseModel<>();
         String statrDate = year + "-" + month + "-1";
         String endDate = year + "-" + (month + 1) + "-1";
         if (month == 12) {
             endDate = (year + 1) + "-" + 1 + "-1";
         }
         try {
-            orders = subscribeServiceDao.merchantFindOrder(customer, statrDate, endDate, type, index);
+            orders = subscribeServiceDao.merchantFindOrder(customer, statrDate, endDate, type);
             for (Order order : orders) {
                 String json = GsonUtil.GsonString(order);
                 list.add(json);
             }
+            PageInfo<Order> pageInfo = new PageInfo<>(orders);
+            if (index <= pageInfo.getNavigateLastPage() && pageInfo.getTotal() > 0) {
+                model.setCode(200);
+                model.setMessage("yes");
+                model.setDatas(list);
+            } else {
+                model.setCode(200);
+                model.setMessage("no");
+            }
         } catch (Exception e) {
             e.printStackTrace();
             orders = null;
-        }
-        BaseModel<String> model = new BaseModel<>();
-        if (orders != null && orders.size() > 0) {
-            model.setCode(200);
-            model.setMessage("查询成功");
-            model.setDatas(list);
-        } else {
             model.setCode(201);
             model.setMessage("查询失败");
         }
-        GsonUtil.GsonString(model);
-        System.out.println(GsonUtil.GsonString(model));
         return GsonUtil.GsonString(model);
     }
 
@@ -262,7 +273,7 @@ public class SubscribeController {
         if (result > 0) {
             model.setCode(200);
             model.setMessage("取消成功");
-            myQuartzManager.removeJob(order.getOrderNumber(),"Subscribe",order.getOrderNumber(),"Subscribe");
+            myQuartzManager.removeJob(order.getOrderNumber(), "Subscribe", order.getOrderNumber(), "Subscribe");
         } else {
             model.setCode(201);
             model.setMessage("取消失败");

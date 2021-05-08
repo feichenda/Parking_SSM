@@ -29,13 +29,13 @@ public class SubscribeService implements SubscribeServiceDao {
     }
 
     @Override
-    public List<Order> customerFindOrder(String customerName, String startDate, String endDate, String orderType, int index) {
-        return dao.customerFindOrder(customerName, startDate, endDate, orderType, index);
+    public List<Order> customerFindOrder(String customerName, String startDate, String endDate, String orderType) {
+        return dao.customerFindOrder(customerName, startDate, endDate, orderType);
     }
 
     @Override
-    public List<Order> merchantFindOrder(String merchantName, String startDate, String endDate, String orderType, int index) {
-        return dao.merchantFindOrder(merchantName, startDate, endDate, orderType, index);
+    public List<Order> merchantFindOrder(String merchantName, String startDate, String endDate, String orderType) {
+        return dao.merchantFindOrder(merchantName, startDate, endDate, orderType);
     }
 
     @Override

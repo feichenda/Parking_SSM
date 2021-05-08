@@ -15,9 +15,9 @@ public interface SubscribeDao {
 
     public int updateSubsrcibeOrder(Order order);
 
-    public List<Order> customerFindOrder(@Param("customerName") String customerName, @Param("statrDate") String startDate, @Param("endDate") String endDate, @Param("orderType") String orderType, @Param("index") int index);
+    public List<Order> customerFindOrder(@Param("customerName") String customerName, @Param("statrDate") String startDate, @Param("endDate") String endDate, @Param("orderType") String orderType);
 
-    public List<Order> merchantFindOrder(@Param("merchantName") String merchantName, @Param("statrDate") String startDate, @Param("endDate") String endDate, @Param("orderType") String orderType, @Param("index") int index);
+    public List<Order> merchantFindOrder(@Param("merchantName") String merchantName, @Param("statrDate") String startDate, @Param("endDate") String endDate, @Param("orderType") String orderType);
 
     public List<Order> findSubscribeOrderByLicense(@Param("license") String license, @Param("merchant") String merchant);
 

@@ -14,9 +14,9 @@ public interface SubscribeServiceDao {
 
     public int updateSubsrcibeOrder(Order order);
 
-    public List<Order> customerFindOrder(String customerName, String startDate, String endDate, String orderType, int index);
+    public List<Order> customerFindOrder(String customerName, String startDate, String endDate, String orderType);
 
-    public List<Order> merchantFindOrder(String merchantName, String startDate, String endDate, String orderType, int index);
+    public List<Order> merchantFindOrder(String merchantName, String startDate, String endDate, String orderType);
 
     public List<Order> findSubscribeOrderByLicense(String license, String merchant);
 
