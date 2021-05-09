@@ -28,8 +28,9 @@
           ORDER BY distance ASC) t1,
          parkingnumber
     WHERE parkingnumber.merchantname = t1.merchantname
-      AND parkingnumber.allnumber -
-          (parkingnumber.usednumber + parkingnumber.subscribenumber + parkingnumber.unusednumber) &gt; 0
+    ORDER BY distance ASC,
+             (parkingnumber.allnumber -
+              parkingnumber.usednumber - parkingnumber.subscribenumber - parkingnumber.unusednumber) DESC
     </select>
 
     <select id="selectParkingByName" resultType="location">
