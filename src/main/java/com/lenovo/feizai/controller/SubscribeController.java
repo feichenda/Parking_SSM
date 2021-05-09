@@ -139,11 +139,11 @@ public class SubscribeController {
                 list.add(json);
             }
             PageInfo<Order> pageInfo = new PageInfo<>(orders);
-//            if (pageInfo.getTotal() == 0) {
-//                model.setCode(201);
-//                model.setMessage("查询失败");
-//                return GsonUtil.GsonString(model);
-//            }
+            if (pageInfo.getTotal() == 0) {
+                model.setCode(201);
+                model.setMessage("查询失败");
+                return GsonUtil.GsonString(model);
+            }
             if (index <= pageInfo.getNavigateLastPage() && pageInfo.getTotal() > 0) {
                 model.setCode(200);
                 model.setMessage("yes");
@@ -180,6 +180,11 @@ public class SubscribeController {
                 list.add(json);
             }
             PageInfo<Order> pageInfo = new PageInfo<>(orders);
+            if (pageInfo.getTotal() == 0) {
+                model.setCode(201);
+                model.setMessage("查询失败");
+                return GsonUtil.GsonString(model);
+            }
             if (index <= pageInfo.getNavigateLastPage() && pageInfo.getTotal() > 0) {
                 model.setCode(200);
                 model.setMessage("yes");
