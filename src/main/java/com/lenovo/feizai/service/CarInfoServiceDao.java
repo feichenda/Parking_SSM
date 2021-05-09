@@ -16,6 +16,8 @@ public interface CarInfoServiceDao {
 
     public List<String> selectCarLicenseByUsernam(String username);
 
+    public CarInfo selectCarByLicense(CarInfo carInfo);
+
     public List<String> selectNoFreeCarByUsername(String username);
 
     public int updateCarInfo(CarInfo carInfo);

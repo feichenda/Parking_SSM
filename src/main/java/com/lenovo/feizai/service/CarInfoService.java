@@ -34,6 +34,11 @@ public class CarInfoService implements CarInfoServiceDao {
     }
 
     @Override
+    public CarInfo selectCarByLicense(CarInfo carInfo) {
+        return dao.selectCarByLicense(carInfo);
+    }
+
+    @Override
     public List<String> selectNoFreeCarByUsername(String username) {
         return dao.selectNoFreeCarByUsername(username);
     }

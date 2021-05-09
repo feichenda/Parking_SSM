@@ -29,8 +29,14 @@ public class CarInfoController {
     @ResponseBody
     @RequestMapping("/addCarInfo")
     public String addCarInfo(@RequestBody CarInfo carInfo){
-        int result = carInfoServiceDao.addCarInfo(carInfo);
+        CarInfo info = carInfoServiceDao.selectCarByLicense(carInfo);
         BaseModel model = new BaseModel();
+        if (info != null) {
+            model.setCode(202);
+            model.setMessage("已存在该车辆");
+            return GsonUtil.GsonString(model);
+        }
+        int result = carInfoServiceDao.addCarInfo(carInfo);
         if (result>0){
             model.setCode(200);
             model.setMessage("添加成功");

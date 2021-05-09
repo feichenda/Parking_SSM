@@ -48,4 +48,11 @@
         set username = #{newname}
         where username = #{oldname}
     </update>
+
+    <select id="selectCarByLicense" parameterType="carinfo" resultType="carinfo">
+        select *
+        from carinfo
+        where username = #{username}
+          and car_license = #{car_license}
+    </select>
 </mapper>
