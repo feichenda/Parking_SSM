@@ -41,7 +41,6 @@
             <colgroup>
                 <col width="150">
                 <col width="150">
-                <col width="200">
                 <col width="400">
                 <col>
             </colgroup>
@@ -49,7 +48,6 @@
             <tr>
                 <th>ID</th>
                 <th>用户名</th>
-                <th>用户积分</th>
                 <th>操作</th>
             </tr>
             </thead>
@@ -58,7 +56,6 @@
                 <tr>
                     <td>${userinfo.id}</td>
                     <td>${userinfo.username}</td>
-                    <td>${userinfo.integral}</td>
                     <td>
                         <a class="layui-btn layui-btn-xs"
                            href="${pageContext.request.contextPath}/api/customer/selectUserByUsername?name=${userinfo.username}">查看详情</a>

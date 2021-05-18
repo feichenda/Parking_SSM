@@ -28,8 +28,6 @@
                 <col width="150">
                 <col width="200">
                 <col width="200">
-                <col width="400">
-                <col>
             </colgroup>
             <thead>
             <tr>
@@ -37,7 +35,6 @@
                 <th>用户名</th>
                 <th>联系电话</th>
                 <th>联系QQ</th>
-                <th>用户积分</th>
             </tr>
             </thead>
             <tbody>
@@ -47,7 +44,6 @@
                 <td>${userdetailedinfo.username}</td>
                 <td>${userdetailedinfo.phone}</td>
                 <td>${userdetailedinfo.QQ}</td>
-                <td>${userdetailedinfo.integral}</td>
             </tr>
             </tbody>
         </table>
