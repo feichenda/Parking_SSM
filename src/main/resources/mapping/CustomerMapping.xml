@@ -8,9 +8,9 @@
     <!--    在mybatis-config.xml文件中配置别名，在这里使用别名的时候这里大小写无所谓-->
     <insert id="addCustomer" parameterType="customer">
         insert into customer (username, phone, QQ, company, company_longitude, company_latitude, home, home_longitude,
-                              home_latitude, integral, avatar)
+                              home_latitude, avatar)
         values (#{username}, #{phone}, #{QQ}, #{company}, #{company_longitude}, #{company_latitude}, #{home},
-                #{home_longitude}, #{home_latitude}, #{integral}, #{avatar})
+                #{home_longitude}, #{home_latitude}, #{avatar})
     </insert>
 
     <select id="selectCustomer" resultType="customer">

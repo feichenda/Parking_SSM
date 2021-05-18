@@ -19,6 +19,5 @@ public class Customer {
     String home;
     double home_longitude;
     double home_latitude;
-    int integral;//用户积分
     String avatar;
 }
