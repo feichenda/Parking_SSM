@@ -34,4 +34,6 @@ public interface ParkingInfoDao {
     public int updateUserName(@Param("oldname") String oldname, @Param("newname") String newname);
 
     public int updateParkingInfoLink(@Param("merchant") String merchant, @Param("phone") String phone, @Param("linkname") String linkname, @Param("QQ") String QQ);
+
+
 }

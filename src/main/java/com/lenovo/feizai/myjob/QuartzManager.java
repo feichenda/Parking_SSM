@@ -57,7 +57,7 @@ public class QuartzManager {
             //创建一个Trigger
             SimpleTrigger trigger = (SimpleTrigger) newTrigger()
                     .withIdentity(triggerName, triggerGroupName)
-                    .startAt(futureDate(TimeUtil.getTimeNowTo(order.getEndDate()), DateBuilder.IntervalUnit.MINUTE)) // use DateBuilder to create a date in the future
+                    .startAt(futureDate(TimeUtil.getTimeNowTo(order.getEndDate()), DateBuilder.IntervalUnit.SECOND)) // use DateBuilder to create a date in the future
                     .forJob(jobName, jobGroupName) // identify job with its JobKey
                     .build();
 
@@ -68,7 +68,7 @@ public class QuartzManager {
             if (!sched.isShutdown()) {
                 sched.start();
             }
-            System.out.println("任务添加成功:"+jobName);
+            System.out.println(TimeUtil.getNowTimestamp()+"任务添加成功:"+jobName);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -110,7 +110,7 @@ public class QuartzManager {
             if (!sched.isShutdown()) {
                 sched.start();
             }
-            System.out.println("任务添加成功:"+jobName);
+            System.out.println(TimeUtil.getNowTimestamp()+"任务添加成功:"+jobName);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -183,7 +183,7 @@ public class QuartzManager {
             sched.pauseTrigger(triggerKey);// 停止触发器
             sched.unscheduleJob(triggerKey);// 移除触发器
             sched.deleteJob(JobKey.jobKey(jobName, jobGroupName));// 删除任务
-            System.out.println("任务删除成功:"+jobName);
+            System.out.println(TimeUtil.getNowTimestamp()+"任务删除成功:"+jobName);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

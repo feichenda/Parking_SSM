@@ -22,8 +22,8 @@ public class TimeUtil {
         try {
             Timestamp nowTime = new Timestamp(new Date().getTime());
             long diff = endTime.getTime() - nowTime.getTime();
-            long nm = 1000 * 60; //1分钟
-            return (int) (diff / nm);
+            long ns = 1000; //1秒钟
+            return Integer.valueOf(String.valueOf((diff / ns)));
         } catch (Exception e) {
             return 0;
         }

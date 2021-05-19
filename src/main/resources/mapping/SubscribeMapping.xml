@@ -47,14 +47,6 @@
           and state = '进行中'
     </select>
 
-    <select id="findSubscribeOrderByLicense" resultType="order">
-        select *
-        from `order`
-        where carLicense = #{license}
-          and merchantName = #{merchant}
-          and TO_DAYS(startDate) = TO_DAYS(NOW())
-    </select>
-
     <select id="findOrderByNumber" resultType="order">
         select *
         from `order`
@@ -78,4 +70,8 @@
         set state = '已取消'
         where orderNumber = #{orderNumber}
     </update>
+
+    <select id="isSubscribing" resultType="order">
+        select * from `order` where merchantName = #{merchantname} and carLicense = #{car} and endDate &gt;= now()
+    </select>
 </mapper>

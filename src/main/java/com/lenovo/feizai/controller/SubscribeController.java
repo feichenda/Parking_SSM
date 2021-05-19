@@ -223,21 +223,6 @@ public class SubscribeController {
     }
 
     @ResponseBody
-    @RequestMapping("/findSubscribeOrderByLicense")//通过车牌查询订单
-    public String findSubscribeOrderByLicense(@Param("license") String license, @Param("merchant") String merchant) {
-        List<Order> orders = subscribeServiceDao.findSubscribeOrderByLicense(license, merchant);
-        BaseModel model = new BaseModel();
-        if (orders.size() > 0) {
-            model.setCode(200);
-            model.setMessage("查询成功");
-        } else {
-            model.setCode(201);
-            model.setMessage("查询失败");
-        }
-        return GsonUtil.GsonString(model);
-    }
-
-    @ResponseBody
     @RequestMapping("/findOrderByNumber")//通过订单号查询订单
     public String findOrderByNumber(@Param("ordernumber") String ordernumber) {
         Order order = subscribeServiceDao.findOrderByNumber(ordernumber);
@@ -282,6 +267,23 @@ public class SubscribeController {
         } else {
             model.setCode(201);
             model.setMessage("取消失败");
+        }
+        return GsonUtil.GsonString(model);
+    }
+
+    @ResponseBody
+    @RequestMapping("/isSubscribing")
+    public String isSubscribing(@Param("merchantname") String merchantname,@Param("car") String car) {
+        Order subscribing = subscribeServiceDao.isSubscribing(merchantname, car);
+        BaseModel<Boolean> model = new BaseModel<>();
+        if (subscribing == null) {
+            model.setCode(201);
+            model.setMessage("查询失败");
+            model.setData(true);
+        } else {
+            model.setCode(200);
+            model.setMessage("查询成功");
+            model.setData(false);
         }
         return GsonUtil.GsonString(model);
     }

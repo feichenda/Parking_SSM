@@ -18,8 +18,6 @@ public interface SubscribeServiceDao {
 
     public List<Order> merchantFindOrder(String merchantName, String startDate, String endDate, String orderType);
 
-    public List<Order> findSubscribeOrderByLicense(String license, String merchant);
-
     public List<Order> selectIngOrderByUser(String username);
 
     public Order findOrderByNumber(String ordernumber);
@@ -29,4 +27,6 @@ public interface SubscribeServiceDao {
     public int updateOrderState(String state, String ordernumber);
 
     public int cancelOrder(Order order);
+
+    public Order isSubscribing(String merchant,String car);
 }

@@ -97,6 +97,10 @@ public class CheckInfoController {
                     model.setCode(205);
                     model.setMessage("订单已取消");
                     break;
+                case "已完成":
+                    model.setCode(206);
+                    model.setMessage("订单已完成");
+                    break;
             }
         } catch (Exception e) {
             e.printStackTrace();

@@ -801,4 +801,21 @@ public class MerchantController {
         }
         return GsonUtil.GsonString(model);
     }
+
+    @ResponseBody
+    @RequestMapping("/isExistParkingInfo")
+    public String isExistParkingInfo(@Param("merchantname") String merchantname) {
+        ParkingInfo parkingInfo = parkingInfoServiceDao.selectMerchantByMerchantName(merchantname);
+        BaseModel<Boolean> model = new BaseModel<>();
+        if (parkingInfo == null) {
+            model.setCode(201);
+            model.setMessage("查询失败");
+            model.setData(false);
+        } else {
+            model.setCode(200);
+            model.setMessage("查询成功");
+            model.setData(true);
+        }
+        return GsonUtil.GsonString(model);
+    }
 }

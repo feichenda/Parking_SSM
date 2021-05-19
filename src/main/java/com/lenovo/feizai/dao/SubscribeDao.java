@@ -19,8 +19,6 @@ public interface SubscribeDao {
 
     public List<Order> merchantFindOrder(@Param("merchantName") String merchantName, @Param("statrDate") String startDate, @Param("endDate") String endDate, @Param("orderType") String orderType);
 
-    public List<Order> findSubscribeOrderByLicense(@Param("license") String license, @Param("merchant") String merchant);
-
     public List<Order> selectIngOrderByUser(String username);
 
     public Order findOrderByNumber(String ordernumber);
@@ -30,4 +28,6 @@ public interface SubscribeDao {
     public int updateOrderState(@Param("state") String state, @Param("ordernumber") String ordernumber);
 
     public int cancelOrder(Order order);
+
+    public Order isSubscribing(@Param("merchantname") String merchantname,@Param("car") String car);
 }

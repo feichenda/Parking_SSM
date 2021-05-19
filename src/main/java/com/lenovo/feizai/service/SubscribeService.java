@@ -39,11 +39,6 @@ public class SubscribeService implements SubscribeServiceDao {
     }
 
     @Override
-    public List<Order> findSubscribeOrderByLicense(String license, String merchant) {
-        return dao.findSubscribeOrderByLicense(license, merchant);
-    }
-
-    @Override
     public List<Order> selectIngOrderByUser(String username) {
         return dao.selectIngOrderByUser(username);
     }
@@ -66,5 +61,10 @@ public class SubscribeService implements SubscribeServiceDao {
     @Override
     public int cancelOrder(Order order) {
         return dao.cancelOrder(order);
+    }
+
+    @Override
+    public Order isSubscribing(String merchant, String car) {
+        return dao.isSubscribing(merchant, car);
     }
 }
