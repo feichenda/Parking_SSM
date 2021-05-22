@@ -155,21 +155,14 @@ public class FileUtil {
         }
     }
 
-    public static void deleteChangeFile(String path) throws IOException {
-        //获取目录名
-        path = realPath + imageChangeDicr + File.separator + path;
-        System.out.println(path);
-        File rootfile = new File(path);
-        File[] files = rootfile.listFiles();
-        //遍历删除文件
-        for (File file : files) {
-            if (file.getName().contains("certificate"))
-                file.delete();
-        }
-    }
-
     public static Boolean deleteImageFile(String pathName) {
         String path = realPath + imageDicr + File.separator + pathName;
+        File file = new File(path);
+        return deleteDir(file);
+    }
+
+    public static Boolean deleteChangeFile(String pathName) {
+        String path = realPath + imageChangeDicr + File.separator + pathName;
         File file = new File(path);
         return deleteDir(file);
     }

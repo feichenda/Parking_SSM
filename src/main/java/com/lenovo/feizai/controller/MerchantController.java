@@ -746,7 +746,7 @@ public class MerchantController {
 
     @ResponseBody
     @RequestMapping("/updateMerchantChange")//gai
-    public String updateMerchantChange(@Param("change") String change, @RequestParam("image") MultipartFile[] image) {
+    public String updateMerchantChange(@Param("oldname") String oldname, @Param("change") String change, @RequestParam("image") MultipartFile[] image) {
         MerchantChange merchantChange = GsonUtil.GsonToBean(change, MerchantChange.class);
         BaseModel model = new BaseModel();
         if (!merchantChange.getOldmerchantname().equals(merchantChange.getNewmerchantname())) {
@@ -758,10 +758,7 @@ public class MerchantController {
             }
         }
         String certificate_paths = "";
-        try {
-            FileUtil.deleteChangeFile(merchantChange.getNewmerchantname());
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (!FileUtil.deleteChangeFile(oldname)) {
             model.setCode(201);
             model.setMessage("文件上传失败");
             return GsonUtil.GsonString(model);
