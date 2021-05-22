@@ -74,4 +74,9 @@ public class MerchantStateService implements MerchantStateServiceDao {
     public int updateByMerchantChange(MerchantChange merchantChange) {
         return dao.updateByMerchantChange(merchantChange);
     }
+
+    @Override
+    public int readdMerchantStatus(MerchantState merchantState, String oldname) {
+        return dao.readdMerchantStatus(merchantState, oldname);
+    }
 }

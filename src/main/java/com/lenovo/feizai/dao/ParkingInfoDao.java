@@ -2,6 +2,7 @@ package com.lenovo.feizai.dao;
 
 import com.lenovo.feizai.entity.*;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -35,5 +36,5 @@ public interface ParkingInfoDao {
 
     public int updateParkingInfoLink(@Param("merchant") String merchant, @Param("phone") String phone, @Param("linkname") String linkname, @Param("QQ") String QQ);
 
-
+    public int readdParkingInfo(@Param("parkingInfo") ParkingInfo parkingInfo, @Param("oldname") String oldname);
 }

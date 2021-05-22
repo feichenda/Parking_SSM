@@ -2,6 +2,7 @@ package com.lenovo.feizai.dao;
 
 import com.lenovo.feizai.entity.MerchantChange;
 import com.lenovo.feizai.entity.ParkingNumber;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -22,5 +23,7 @@ public interface ParkingNumberDao {
     public int updateByMerchantChange(MerchantChange merchantChange);
 
     public ParkingNumber selectNumberByMerchantnumber(String merchant);
+
+    public int readdParkingNumber(@Param("parkingNumber") ParkingNumber parkingNumber, @Param("oldname") String oldname);
 
 }

@@ -82,4 +82,14 @@
         set merchantname = #{newmerchantname}
         where merchantname = #{oldmerchantname}
     </update>
+
+    <update id="readdMerchantStatus">
+        update merchantstate
+        set merchantname   = #{merchantState.merchantname},
+            operatingstate = #{merchantState.operatingstate},
+            auditstate     = #{merchantState.auditstate},
+            remark = #{merchantState.remark}
+        where merchantname = #{oldname}
+
+    </update>
 </mapper>

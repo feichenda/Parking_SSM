@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,6 +57,7 @@ public class MerchantController {
 
     /**
      * 添加停车场
+     *
      * @param merchant_str
      * @param location_str
      * @param rates_str
@@ -137,8 +139,114 @@ public class MerchantController {
         return GsonUtil.GsonString(model);
     }
 
+    @ResponseBody
+    @RequestMapping("/selectParkingInfoByName")
+    public String selectParkingInfoByName(@Param("merchantname") String merchantname) {
+        BaseModel<MerchantProperty> model = new BaseModel<>();
+        MerchantProperty property = new MerchantProperty();
+        ParkingInfo parkingInfo = parkingInfoServiceDao.selectMerchantByMerchantName(merchantname);
+        Location location = locationServiceDao.selectParkingByName(merchantname);
+        ParkingNumber number = parkingNumberServerDao.selectNumberByMerchantnumber(merchantname);
+        Rates rates = ratesServiceDao.findRatesByMerchant(merchantname);
+        MerchantState merchantState = merchantStateServiceDao.findMerchantState(merchantname);
+        if (parkingInfo == null || location == null || number == null || rates == null || merchantState == null) {
+            model.setCode(201);
+            model.setMessage("查询失败");
+            return GsonUtil.GsonString(model);
+        }
+        property.setParkingInfo(parkingInfo);
+        property.setLocation(location);
+        property.setParkingNumber(number);
+        property.setRates(rates);
+        property.setMerchantState(merchantState);
+        model.setCode(200);
+        model.setMessage("查询成功");
+        model.setData(property);
+        return GsonUtil.GsonString(model);
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/addchengmerchantinfo", method = RequestMethod.POST)
+    public String addchengmerchantinfo(@Param("oldname") String oldname, @Param("merchant_str") String merchant_str, @Param("location_str") String location_str, @Param("rates_str") String rates_str, @Param("parkingnumber_str") String parkingnumber_str, @RequestParam("license") MultipartFile[] license, @RequestParam("image") MultipartFile[] image) {
+        ParkingInfo parkingInfo = GsonUtil.GsonToBean(merchant_str, ParkingInfo.class);
+        Location location = GsonUtil.GsonToBean(location_str, Location.class);
+        Rates rates = GsonUtil.GsonToBean(rates_str, Rates.class);
+        ParkingNumber parkingnumber = GsonUtil.GsonToBean(parkingnumber_str, ParkingNumber.class);
+        String certificate_paths = "";
+        String photo_paths = "";
+        BaseModel model = new BaseModel();
+        ParkingInfo result = parkingInfoServiceDao.selectMerchantByMerchantName(parkingInfo.getMerchantname());
+        if (result != null && !result.getMerchantname().equals(oldname)) {
+            model.setCode(202);
+            model.setMessage("商家名已存在");
+            return GsonUtil.GsonString(model);
+        }
+        if (!FileUtil.deleteImageFile(oldname)) {
+            model.setCode(201);
+            model.setMessage("文件上传失败");
+            return GsonUtil.GsonString(model);
+        }
+        for (int i = 0; i < license.length; i++) {
+            String path = null;
+            try {
+                path = FileUtil.getParkingFilePath(license[i], parkingInfo.getMerchantname(), "certificate_" + i);
+            } catch (IOException e) {
+                e.printStackTrace();
+                model.setCode(201);
+                model.setMessage("文件上传失败");
+                return GsonUtil.GsonString(model);
+            }
+            if (!certificate_paths.equals("")) {
+                certificate_paths = certificate_paths + "&" + path;
+            } else {
+                certificate_paths = certificate_paths + path;
+            }
+        }
+        for (int i = 0; i < image.length; i++) {
+            String path = null;
+            try {
+                path = FileUtil.getParkingFilePath(image[i], parkingInfo.getMerchantname(), "photo_" + i);
+            } catch (IOException e) {
+                e.printStackTrace();
+                model.setCode(201);
+                model.setMessage("文件上传失败");
+                return GsonUtil.GsonString(model);
+            }
+            if (!photo_paths.equals("")) {
+                photo_paths = photo_paths + "&" + path;
+            } else {
+                photo_paths = photo_paths + path;
+            }
+        }
+        parkingInfo.setBusinesslicense(certificate_paths);
+        parkingInfo.setMerchantimage(photo_paths);
+        MerchantState state = new MerchantState();
+        state.setMerchantname(parkingInfo.getMerchantname());
+        state.setOperatingstate("未营业");
+        state.setAuditstate("未审核");
+        state.setRemark(null);
+        //保存到数据库
+        parkingInfoServiceDao.readdParkingInfo(parkingInfo, oldname);
+        locationServiceDao.readdLocation(location,oldname);
+        ratesServiceDao.readdRates(rates,oldname);
+        parkingNumberServerDao.readdParkingNumber(parkingnumber,oldname);
+        merchantStateServiceDao.readdMerchantStatus(state,oldname);
+        parkingSpaceServiceDao.deleteSpaceByMerchantName(oldname);
+        for (int i = 0; i < parkingnumber.getAllnumber(); i++) {
+            ParkingSpace space = new ParkingSpace();
+            space.setMerchantname(parkingnumber.getMerchantname());
+            space.setParkingstate("未使用");
+            space.setSerialnumber(String.valueOf(i + 1));
+            parkingSpaceServiceDao.addSpace(space);
+        }
+        model.setCode(200);
+        model.setMessage("文件上传成功");
+        return GsonUtil.GsonString(model);
+    }
+
     /**
      * 查询所有停车场
+     *
      * @param model
      * @return
      */
@@ -177,6 +285,7 @@ public class MerchantController {
 
     /**
      * 通过停车场名查询停车场
+     *
      * @param name
      * @param model
      * @return
@@ -184,7 +293,7 @@ public class MerchantController {
     @RequestMapping("/selectMerchantByMerchantname")
     public String selectMerchantByMerchantname(String name, Model model) {
         ParkingInfo parkingInfo = parkingInfoServiceDao.selectMerchantByMerchantName(name);
-        List<Location> locations = locationServiceDao.selectParkingByName(name);
+        Location location = locationServiceDao.selectParkingByName(name);
         List<ParkingNumber> parkingNumbers = parkingNumberServerDao.selectNumberByname(name);
         List<MerchantState> merchantStates = merchantStateServiceDao.selectMerchantStateByName(name);
         List<Rates> rates = ratesServiceDao.selectRatesByMerchant(name);
@@ -193,7 +302,7 @@ public class MerchantController {
         String images = parkingInfo.getMerchantimage();
         String[] images_paths = images.split("&");
         model.addAttribute("merchantdetailedinfo", parkingInfo);
-        model.addAttribute("locationdetailedinfo", locations.get(0));
+        model.addAttribute("locationdetailedinfo", location);
         model.addAttribute("parkingnumberdetailedinfo", parkingNumbers.get(0));
         model.addAttribute("merchantstatedetailedinfo", merchantStates.get(0));
         model.addAttribute("ratedetailedinfo", rates.get(0));
@@ -205,7 +314,7 @@ public class MerchantController {
     @RequestMapping("/selectUncheckMerchantByMerchantname")//通过停车场名查询未审核的停车场
     public String selectUncheckMerchantByMerchantname(String name, Model model) {
         ParkingInfo parkingInfo = parkingInfoServiceDao.selectMerchantByMerchantName(name);
-        List<Location> locations = locationServiceDao.selectParkingByName(name);
+        Location location = locationServiceDao.selectParkingByName(name);
         List<ParkingNumber> parkingNumbers = parkingNumberServerDao.selectNumberByname(name);
         List<MerchantState> merchantStates = merchantStateServiceDao.selectMerchantStateByName(name);
         List<Rates> rates = ratesServiceDao.selectRatesByMerchant(name);
@@ -214,7 +323,7 @@ public class MerchantController {
         String images = parkingInfo.getMerchantimage();
         String[] images_paths = images.split("&");
         model.addAttribute("merchantdetailedinfo", parkingInfo);
-        model.addAttribute("locationdetailedinfo", locations.get(0));
+        model.addAttribute("locationdetailedinfo", location);
         model.addAttribute("parkingnumberdetailedinfo", parkingNumbers.get(0));
         model.addAttribute("merchantstatedetailedinfo", merchantStates.get(0));
         model.addAttribute("ratedetailedinfo", rates.get(0));
@@ -226,7 +335,7 @@ public class MerchantController {
     @RequestMapping("/selectUncheckChangeMerchantByMerchantname")//通过停车场名查询修改未审核的停车场
     public String selectUncheckChangeMerchantByMerchantname(String name, Model model) {
         ParkingInfo parkingInfo = parkingInfoServiceDao.selectMerchantByMerchantName(name);
-        List<Location> locations = locationServiceDao.selectParkingByName(name);
+        Location location = locationServiceDao.selectParkingByName(name);
         List<Rates> rates = ratesServiceDao.selectRatesByMerchant(name);
         MerchantChange merchantChange = merchantChangeServiceDao.selectMerchatChangeByOldName(name);
         String newlicense = merchantChange.getBusinesslicense();
@@ -234,7 +343,7 @@ public class MerchantController {
         String[] oldlicense_paths = oldlicense.split("&");
         String[] newlicense_paths = newlicense.split("&");
         model.addAttribute("oldmerchantdetailedinfo", parkingInfo);
-        model.addAttribute("oldlocationdetailedinfo", locations.get(0));
+        model.addAttribute("oldlocationdetailedinfo", location);
         model.addAttribute("oldratedetailedinfo", rates.get(0));
         model.addAttribute("newmerchantdetailedinfo", merchantChange);
         model.addAttribute("ratedetailedinfo", rates.get(0));
@@ -245,6 +354,7 @@ public class MerchantController {
 
     /**
      * 查询商家详细信息
+     *
      * @param name
      * @return
      */
@@ -291,6 +401,7 @@ public class MerchantController {
 
     /**
      * 查询车位表
+     *
      * @param merchantname
      * @return
      */
@@ -313,6 +424,7 @@ public class MerchantController {
 
     /**
      * 查询商家价格
+     *
      * @param merchantname
      * @return
      */
@@ -633,7 +745,7 @@ public class MerchantController {
     }
 
     @ResponseBody
-    @RequestMapping("/updateMerchantChange")
+    @RequestMapping("/updateMerchantChange")//gai
     public String updateMerchantChange(@Param("change") String change, @RequestParam("image") MultipartFile[] image) {
         MerchantChange merchantChange = GsonUtil.GsonToBean(change, MerchantChange.class);
         BaseModel model = new BaseModel();

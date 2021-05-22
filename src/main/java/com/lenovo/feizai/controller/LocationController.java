@@ -57,12 +57,12 @@ public class LocationController {
             properties.add(property);
         }
         BaseModel<MerchantProperty> model = new BaseModel<>();
-        if (parkings.size()>0) {
+        if (parkings.size() > 0) {
             model.setCode(200);
             model.setMessage("查询成功");
             model.setDatas(properties);
             return GsonUtil.GsonString(model);
-        }else {
+        } else {
             model.setCode(201);
             model.setMessage("查询失败");
             return GsonUtil.GsonString(model);
@@ -71,14 +71,14 @@ public class LocationController {
 
     @ResponseBody
     @RequestMapping("/selectParkingByName")
-    public String selectParkingByName(@Param("merchant") String merchant){
-        List<Location> locations = locationServiceDao.selectParkingByName(merchant);
+    public String selectParkingByName(@Param("merchant") String merchant) {
+        Location location = locationServiceDao.selectParkingByName(merchant);
         BaseModel<Location> model = new BaseModel<>();
-        if (locations.size()>0){
+        if (location != null) {
             model.setCode(200);
             model.setMessage("查询成功");
-            model.setDatas(locations);
-        }else {
+            model.setData(location);
+        } else {
             model.setCode(201);
             model.setMessage("查询失败");
         }

@@ -44,4 +44,10 @@
         set merchantname = #{newmerchantname}
         where merchantname = #{oldmerchantname}
     </update>
+
+    <delete id="deleteSpaceByMerchantName">
+        delete
+        from parkingspace
+        where merchantname = #{oldname}
+    </delete>
 </mapper>

@@ -20,4 +20,6 @@ public interface RatesServiceDao {
     public int updateByMerchantChange(MerchantChange merchantChange);
 
     public Rates findRatesByMerchant(String merchant);
+
+    public int readdRates(Rates rates, String oldname);
 }

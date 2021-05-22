@@ -18,7 +18,9 @@ public interface LocationDao {
 
     public List<Location> selectLocation(String keyword);
 
-    public List<Location> selectParkingByName(String name);
+    public Location selectParkingByName(String name);
 
     public int updateByMerchantChange(MerchantChange merchantChange);
+
+    public int readdLocation(@Param("location") Location location, @Param("oldname") String oldname);
 }

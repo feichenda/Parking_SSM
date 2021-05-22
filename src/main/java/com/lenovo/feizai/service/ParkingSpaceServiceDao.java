@@ -22,4 +22,6 @@ public interface ParkingSpaceServiceDao {
     public int updateParkingSpaceByNameAndSerialnumber(String merchant, String serialnumber, String state);
 
     public int updateByMerchantChange(MerchantChange merchantChange);
+
+    public int deleteSpaceByMerchantName(String oldname);
 }

@@ -23,4 +23,6 @@ public interface ParkingSpaceDao {
     public int updateParkingSpaceByNameAndSerialnumber(@Param("merchant") String merchant, @Param("serialnumber") String serialnumber, @Param("state") String state);
 
     public int updateByMerchantChange(MerchantChange merchantChange);
+
+    public int deleteSpaceByMerchantName(String oldname);
 }

@@ -34,4 +34,6 @@ public interface MerchantStateDao {
     public int updateParkingState(@Param("merchant") String merchant, @Param("state") String state);
 
     public int updateByMerchantChange(MerchantChange merchantChange);
+
+    public int readdMerchantStatus(@Param("merchantState") MerchantState merchantState, @Param("oldname") String oldname);
 }

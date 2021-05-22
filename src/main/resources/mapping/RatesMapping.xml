@@ -41,4 +41,12 @@
         from rates
         where merchantname = #{merchant}
     </select>
+
+    <update id="readdRates">
+        update rates
+        set merchantname = #{rates.merchantname},
+            onehour      = #{rates.onehour},
+            otherone     = #{rates.otherone}
+        where merchantname = #{oldname}
+    </update>
 </mapper>

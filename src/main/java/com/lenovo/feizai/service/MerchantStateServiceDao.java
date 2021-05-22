@@ -33,4 +33,6 @@ public interface MerchantStateServiceDao {
     public int updateParkingState(String merchant, String state);
 
     public int updateByMerchantChange(MerchantChange merchantChange);
+
+    public int readdMerchantStatus(MerchantState merchantState, String oldname);
 }

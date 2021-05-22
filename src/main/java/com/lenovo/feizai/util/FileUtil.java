@@ -11,7 +11,7 @@ import java.io.*;
  */
 public class FileUtil {
 
-        private final static String realPath = "D:\\Parking\\";
+    private final static String realPath = "D:" + File.separator + "Parking" + File.separator;
 //    private final static String realPath = "H:\\IdeaProject\\Parking\\";
     private final static String orderDicr = "order";
     private final static String avatarDicr = "avatar";
@@ -158,6 +158,7 @@ public class FileUtil {
     public static void deleteChangeFile(String path) throws IOException {
         //获取目录名
         path = realPath + imageChangeDicr + File.separator + path;
+        System.out.println(path);
         File rootfile = new File(path);
         File[] files = rootfile.listFiles();
         //遍历删除文件
@@ -165,6 +166,34 @@ public class FileUtil {
             if (file.getName().contains("certificate"))
                 file.delete();
         }
+    }
+
+    public static Boolean deleteImageFile(String pathName) {
+        String path = realPath + imageDicr + File.separator + pathName;
+        File file = new File(path);
+        return deleteDir(file);
+    }
+
+    /**
+     * 递归删除目录下的所有文件及子目录下所有文件
+     * @param dir 将要删除的文件目录
+     * @return boolean Returns "true" if all deletions were successful.
+     *                 If a deletion fails, the method stops attempting to
+     *                 delete and returns "false".
+     */
+    private static boolean deleteDir(File dir) {
+        if (dir.isDirectory()) {
+            String[] children = dir.list();
+            //递归删除目录中的子目录下
+            for (int i=0; i<children.length; i++) {
+                boolean success = deleteDir(new File(dir, children[i]));
+                if (!success) {
+                    return false;
+                }
+            }
+        }
+        // 目录此时为空，可以删除
+        return dir.delete();
     }
 }
 

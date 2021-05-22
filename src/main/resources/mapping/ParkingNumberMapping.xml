@@ -49,4 +49,14 @@
         where merchantname = #{merchant}
     </select>
 
+    <update id="readdParkingNumber">
+        update parkingnumber
+        set merchantname    = #{parkingNumber.merchantname},
+            allnumber       = #{parkingNumber.allnumber},
+            unusednumber    = #{parkingNumber.unusednumber},
+            subscribenumber = #{parkingNumber.subscribenumber},
+            unusednumber    = #{parkingNumber.unusednumber}
+        where merchantname = #{oldname}
+    </update>
+
 </mapper>

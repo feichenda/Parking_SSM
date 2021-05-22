@@ -35,12 +35,17 @@ public class LocationService implements LocationServiceDao {
     }
 
     @Override
-    public List<Location> selectParkingByName(String name) {
+    public Location selectParkingByName(String name) {
         return dao.selectParkingByName(name);
     }
 
     @Override
     public int updateByMerchantChange(MerchantChange merchantChange) {
         return dao.updateByMerchantChange(merchantChange);
+    }
+
+    @Override
+    public int readdLocation(Location location, String oldname) {
+        return dao.readdLocation(location, oldname);
     }
 }

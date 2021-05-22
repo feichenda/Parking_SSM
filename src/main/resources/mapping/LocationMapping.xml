@@ -58,6 +58,15 @@
         where merchantname = #{oldmerchantname}
     </update>
 
+    <update id="readdLocation">
+        update location
+        set merchantname = #{location.merchantname},
+            longitude    = #{location.longitude},
+            latitude     = #{location.latitude},
+            city         = #{location.city}
+        where merchantname = #{oldname}
+    </update>
+
 
     <!--SELECT t2.* FROM (SELECT *, ROUND( 6378.138 * 2 * ASIN( SQRT( POW( SIN( ( latitude * PI() / 180 - #{latitude} * PI() / 180 ) / 2 ), 2 ) + COS(latitude * PI() / 180) * COS(#{latitude} * PI() / 180) * POW( SIN( ( longitude * PI() / 180 - #{longitude} * PI() / 180 ) / 2 ), 2 ) ) ) * 1000 )/1000 AS distance FROM location) t2 WHERE distance &lt; 5  ORDER BY distance ASC-->
 

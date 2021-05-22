@@ -105,4 +105,17 @@
             QQ      =#{QQ}
         where merchantname = #{merchant}
     </update>
+
+    <update id="readdParkingInfo">
+        update parkinginfo
+        set username        = #{parkingInfo.username},
+            merchantname    = #{parkingInfo.merchantname},
+            merchantaddress = #{parkingInfo.merchantaddress},
+            merchantimage   = #{parkingInfo.merchantimage},
+            businesslicense = #{parkingInfo.businesslicense},
+            phone           = #{parkingInfo.phone},
+            linkman         = #{parkingInfo.linkman},
+            QQ              = #{parkingInfo.QQ}
+        where merchantname = #{oldname}
+    </update>
 </mapper>

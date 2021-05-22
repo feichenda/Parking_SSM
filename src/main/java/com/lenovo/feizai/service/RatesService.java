@@ -43,4 +43,9 @@ public class RatesService implements RatesServiceDao {
     public Rates findRatesByMerchant(String merchant) {
         return dao.findRatesByMerchant(merchant);
     }
+
+    @Override
+    public int readdRates(Rates rates, String oldname) {
+        return dao.readdRates(rates, oldname);
+    }
 }

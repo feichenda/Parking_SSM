@@ -48,4 +48,9 @@ public class ParkingNumberServer implements ParkingNumberServerDao {
     public ParkingNumber selectNumberByMerchantnumber(String merchant) {
         return dao.selectNumberByMerchantnumber(merchant);
     }
+
+    @Override
+    public int readdParkingNumber(ParkingNumber parkingNumber, String oldname) {
+        return dao.readdParkingNumber(parkingNumber, oldname);
+    }
 }

@@ -78,4 +78,9 @@ public class ParkingInfoService implements ParkingInfoServiceDao {
         return dao.updateParkingInfoLink(merchant, phone, linkname, QQ);
     }
 
+    @Override
+    public int readdParkingInfo(ParkingInfo parkingInfo, String oldname) {
+        return dao.readdParkingInfo(parkingInfo, oldname);
+    }
+
 }

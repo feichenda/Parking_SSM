@@ -48,4 +48,9 @@ public class ParkingSpaceService implements ParkingSpaceServiceDao {
     public int updateByMerchantChange(MerchantChange merchantChange) {
         return dao.updateByMerchantChange(merchantChange);
     }
+
+    @Override
+    public int deleteSpaceByMerchantName(String oldname) {
+        return dao.deleteSpaceByMerchantName(oldname);
+    }
 }

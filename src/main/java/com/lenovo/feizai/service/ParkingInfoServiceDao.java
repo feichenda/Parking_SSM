@@ -33,4 +33,6 @@ public interface ParkingInfoServiceDao {
     public int updateUserName(String oldname, String newname);
 
     public int updateParkingInfoLink(String merchant, String phone, String linkname, String QQ);
+
+    public int readdParkingInfo(ParkingInfo parkingInfo, String oldname);
 }
