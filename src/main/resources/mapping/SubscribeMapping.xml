@@ -72,6 +72,6 @@
     </update>
 
     <select id="isSubscribing" resultType="order">
-        select * from `order` where merchantName = #{merchantname} and carLicense = #{car} and endDate &gt;= now()
+        select * from `order` where merchantName = #{merchantname} and carLicense = #{car} and endDate &gt;= now() and state = '进行中'
     </select>
 </mapper>
