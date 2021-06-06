@@ -28,5 +28,6 @@ public interface SubscribeServiceDao {
 
     public int cancelOrder(Order order);
 
-    public Order isSubscribing(String merchant,String car);
+//    public Order isSubscribing(String merchant,String car);
+    public Order isSubscribing(String car);
 }

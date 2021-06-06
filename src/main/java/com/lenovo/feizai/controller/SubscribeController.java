@@ -274,7 +274,7 @@ public class SubscribeController {
     @ResponseBody
     @RequestMapping("/isSubscribing")
     public String isSubscribing(@Param("merchantname") String merchantname,@Param("car") String car) {
-        Order subscribing = subscribeServiceDao.isSubscribing(merchantname, car);
+        Order subscribing = subscribeServiceDao.isSubscribing(car);
         BaseModel<Boolean> model = new BaseModel<>();
         if (subscribing == null) {
             model.setCode(201);

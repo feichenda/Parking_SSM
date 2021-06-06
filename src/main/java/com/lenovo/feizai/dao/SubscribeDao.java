@@ -29,5 +29,6 @@ public interface SubscribeDao {
 
     public int cancelOrder(Order order);
 
-    public Order isSubscribing(@Param("merchantname") String merchantname,@Param("car") String car);
+//    public Order isSubscribing(@Param("merchantname") String merchantname,@Param("car") String car);
+    public Order isSubscribing(String car);
 }

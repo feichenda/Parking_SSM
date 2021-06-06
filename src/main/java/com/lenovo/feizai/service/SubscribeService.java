@@ -63,8 +63,13 @@ public class SubscribeService implements SubscribeServiceDao {
         return dao.cancelOrder(order);
     }
 
+//    @Override
+//    public Order isSubscribing(String merchant, String car) {
+//        return dao.isSubscribing(merchant, car);
+//    }
+
     @Override
-    public Order isSubscribing(String merchant, String car) {
-        return dao.isSubscribing(merchant, car);
+    public Order isSubscribing(String car) {
+        return dao.isSubscribing(car);
     }
 }
